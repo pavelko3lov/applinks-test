@@ -4,13 +4,6 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- Fire the app-open attempt as EARLY as possible (runs before the body renders).
-       NOTE: iOS has no meta tag that auto-launches an app; a JS redirect to the
-       custom scheme is the only mechanism, and Safari still shows an "Open in Reddit?" prompt. -->
-  <script>
-    window.location.href = "reddit://www.reddit.com/r/howislivingthere/comments/1uxyw1g/";
-  </script>
-
   <!-- Smart App Banner (Safari only): shows an "OPEN" banner; still tap-to-open -->
   <meta name="apple-itunes-app" content="app-id=1064216828, app-argument=reddit://www.reddit.com/r/howislivingthere/comments/1uxyw1g/">
 
@@ -31,18 +24,28 @@
   </style>
 </head>
 <body>
-  <h1>Opening the Reddit app…</h1>
+  <h1>Reddit app open test</h1>
   <a class="btn" id="app" href="reddit://www.reddit.com/r/howislivingthere/comments/1uxyw1g/">Open in Reddit app</a>
   <p><a class="web" href="https://www.reddit.com/r/howislivingthere/comments/1uxyw1g/how_is_life_in_this_part_of_england/">Open the post on the web instead</a></p>
   <p id="status" style="color:#888"></p>
   <script>
-    // Second attempt after DOM is ready, in case the early one was throttled.
+    // Render the page first, THEN attempt to open the app (iOS only, after load).
     var appURL = "reddit://www.reddit.com/r/howislivingthere/comments/1uxyw1g/";
-    setTimeout(function(){ window.location.href = appURL; }, 100);
-    setTimeout(function(){
-      document.getElementById('status').textContent =
-        "If the app didn't open, tap the orange button (some in-app browsers block auto-open).";
-    }, 1500);
+    var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    window.addEventListener('load', function () {
+      if (!isIOS) {
+        document.getElementById('status').textContent =
+          "Auto-open only runs on iOS. Tap the button to test the reddit:// scheme.";
+        return;
+      }
+      // Attempt to open the app. iOS still shows an "Open in Reddit?" prompt in Safari,
+      // and in-app browsers (FB/IG/X) usually block this entirely.
+      setTimeout(function () { window.location.href = appURL; }, 300);
+      setTimeout(function () {
+        document.getElementById('status').textContent =
+          "If nothing happened, tap the orange button (some in-app browsers block auto-open).";
+      }, 1800);
+    });
   </script>
 </body>
 </html>
