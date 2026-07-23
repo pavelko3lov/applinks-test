@@ -4,49 +4,36 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- Smart App Banner (Safari only): shows an "OPEN" banner; still tap-to-open -->
-  <meta name="apple-itunes-app" content="app-id=1064216828, app-argument=reddit://www.reddit.com/r/howislivingthere/comments/1uxyw1g/">
+  <!-- Smart App Banner (Safari only) -->
+  <meta name="apple-itunes-app" content="app-id=1064216828, app-argument=reddit://reddit/r/howislivingthere/comments/1uxyw1g/">
 
   <meta name="twitter:card" content="app">
   <meta name="twitter:site" content="@reddit">
   <meta name="twitter:description" content="Open this Reddit post in the Reddit app">
   <meta name="twitter:app:name:iphone" content="Reddit">
   <meta name="twitter:app:id:iphone" content="1064216828">
-  <meta name="twitter:app:url:iphone" content="reddit://www.reddit.com/r/howislivingthere/comments/1uxyw1g/">
-  
+  <meta name="twitter:app:url:iphone" content="reddit://reddit/r/howislivingthere/comments/1uxyw1g/">
+
   <!-- Keep FB scraping THIS page -->
   <meta property="og:url" content="https://pavelko3lov.github.io/applinks-test/">
   <meta property="og:title" content="Open in Reddit app – test">
   <meta property="og:type" content="website">
   <meta property="og:description" content="Reddit app open test">
+
   <!-- Facebook App Links -->
+  <!-- iOS -->
   <meta property="al:ios:url" content="reddit://www.reddit.com/r/howislivingthere/comments/1uxyw1g/">
   <meta property="al:ios:app_store_id" content="1064216828">
   <meta property="al:ios:app_name" content="Reddit">
 
-  <!-- Facebook App Links: HTTPS deep link + installed prod package, listed ONCE -->
+  <!-- Android: point at the verified HTTPS App Link + installed PROD package. Listed ONCE. -->
   <meta property="al:android:url" content="https://www.reddit.com/r/howislivingthere/comments/1uxyw1g/how_is_life_in_this_part_of_england/">
   <meta property="al:android:package" content="com.reddit.frontpage">
   <meta property="al:android:app_name" content="Reddit">
+
+  <!-- Fall back to web if the app isn't installed -->
   <meta property="al:web:should_fallback" content="true">
-  
-  <!-- QA -->
-  <meta property="al:android:url" content="reddit://reddit/r/howislivingthere/comments/1uxyw1g/">
-  <meta property="al:android:package" content="com.reddit.frontpage.qa">
-  <meta property="al:android:app_name" content="Reddit QA">
 
-  <!-- DEBUG -->
-  <meta property="al:android:url" content="reddit://reddit/r/howislivingthere/comments/1uxyw1g/">
-  <meta property="al:android:package" content="com.reddit.frontpage.debug">
-  <meta property="al:android:app_name" content="Reddit Debug">
-
-  <!-- PROD -->
-  <meta property="al:android:url" content="reddit://reddit/r/howislivingthere/comments/1uxyw1g/">
-  <meta property="al:android:package" content="com.reddit.frontpage">
-  <meta property="al:android:app_name" content="Reddit">
-
-  <meta property="al:web:should_fallback" content="false">
-  
   <style>
     body{font:17px -apple-system,Helvetica,Arial,sans-serif;padding:24px;text-align:center}
     a.btn{display:block;margin:16px auto;max-width:320px;padding:16px;border-radius:12px;
@@ -56,24 +43,27 @@
 </head>
 <body>
   <h1>Reddit app open test</h1>
-  <a class="btn" id="app" href="reddit://www.reddit.com/r/howislivingthere/comments/1uxyw1g/">Open in Reddit app</a>
+
+  <!-- Custom scheme: host MUST be "reddit" (app registers reddit://reddit/...) -->
+  <a class="btn" id="app" href="reddit://reddit/r/howislivingthere/comments/1uxyw1g/">Open in Reddit app (scheme)</a>
   <p><a class="web" href="https://www.reddit.com/r/howislivingthere/comments/1uxyw1g/how_is_life_in_this_part_of_england/">Open the post on the web instead</a></p>
 
-  <!-- Custom scheme: host must be "reddit" -->
-  <a class="btn" href="reddit://reddit/r/howislivingthere/comments/1uxyw1g/">Open in Reddit app</a>
+  <!-- Intent URIs: each href MUST be one single line, no whitespace before #Intent -->
+  <a class="btn" href="intent://reddit/r/howislivingthere/comments/1uxyw1g/#Intent;scheme=reddit;package=com.reddit.frontpage.qa;S.browser_fallback_url=https%3A%2F%2Fwww.reddit.com%2Fr%2Fhowislivingthere%2Fcomments%2F1uxyw1g%2F;end">Open QA app</a>
 
-  <!-- Intent URI (PROD) — single line, no newline before #Intent -->
+  <a class="btn" href="intent://reddit/r/howislivingthere/comments/1uxyw1g/#Intent;scheme=reddit;package=com.reddit.frontpage.debug;S.browser_fallback_url=https%3A%2F%2Fwww.reddit.com%2Fr%2Fhowislivingthere%2Fcomments%2F1uxyw1g%2F;end">Open DEBUG app</a>
+
   <a class="btn" href="intent://reddit/r/howislivingthere/comments/1uxyw1g/#Intent;scheme=reddit;package=com.reddit.frontpage;S.browser_fallback_url=https%3A%2F%2Fwww.reddit.com%2Fr%2Fhowislivingthere%2Fcomments%2F1uxyw1g%2F;end">Open PROD app</a>
-  
+
   <p id="status" style="color:#888"></p>
   <script>
     // Render the page first, THEN attempt to open the app (iOS only, after load).
-    var appURL = "reddit://www.reddit.com/r/howislivingthere/comments/1uxyw1g/";
+    var appURL = "reddit://reddit/r/howislivingthere/comments/1uxyw1g/";
     var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
     window.addEventListener('load', function () {
       if (!isIOS) {
         document.getElementById('status').textContent =
-          "Auto-open only runs on iOS. Tap the button to test the reddit:// scheme.";
+          "Auto-open only runs on iOS. Tap a button to test on Android.";
         return;
       }
       // Attempt to open the app. iOS still shows an "Open in Reddit?" prompt in Safari,
