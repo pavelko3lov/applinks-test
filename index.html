@@ -52,6 +52,22 @@
   <h1>Reddit app open test</h1>
   <a class="btn" id="app" href="reddit://www.reddit.com/r/howislivingthere/comments/1uxyw1g/">Open in Reddit app</a>
   <p><a class="web" href="https://www.reddit.com/r/howislivingthere/comments/1uxyw1g/how_is_life_in_this_part_of_england/">Open the post on the web instead</a></p>
+
+  <a class="btn" href="intent://reddit/r/howislivingthere/comments/1uxyw1g/
+  #Intent;scheme=reddit;package=com.reddit.frontpage.qa;S.browser_fallback_url=https%3A%2F%2Fwww.reddit.com%2Fr%2Fhowislivingthere%2Fcomments%2F1uxyw1g%2F;end">
+    Open QA app
+  </a>
+
+  <a class="btn" href="intent://reddit/r/howislivingthere/comments/1uxyw1g/
+  #Intent;scheme=reddit;package=com.reddit.frontpage.debug;S.browser_fallback_url=https%3A%2F%2Fwww.reddit.com%2Fr%2Fhowislivingthere%2Fcomments%2F1uxyw1g%2F;end">
+    Open DEBUG app
+  </a>
+
+  <a class="btn" href="intent://reddit/r/howislivingthere/comments/1uxyw1g/
+  #Intent;scheme=reddit;package=com.reddit.frontpage;S.browser_fallback_url=https%3A%2F%2Fwww.reddit.com%2Fr%2Fhowislivingthere%2Fcomments%2F1uxyw1g%2F;end">
+    Open PROD app
+  </a>
+  
   <p id="status" style="color:#888"></p>
   <script>
     // Render the page first, THEN attempt to open the app (iOS only, after load).
